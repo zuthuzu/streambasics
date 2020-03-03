@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,8 +28,21 @@ public class Main {
 		minvalues.forEach(i -> System.out.print(i + ", "));
 		System.out.println("and that's it.");
 
-		int minIdx = IntStream.range(0,values.size()).reduce((i,j) -> values.get(i) > values.get(j) ? j : i).getAsInt();
-		System.out.println("[One-pass search attempt] Minimal index is " + minIdx);
+		class Pair {
+			int index;
+			int value;
+
+			public Pair(int index, int value) {
+				this.index = index;
+				this.value = value;
+			}
+		}
+
+		List<Pair> valuesAsPair = new ArrayList<>();
+		IntStream.range(0,values.size()).forEach(i -> valuesAsPair.add(new Pair(i, values.get(i))));
+
+		Pair minPair = valuesAsPair.stream().reduce((i, j) -> i.value > j.value ? j : i).get();
+		System.out.println("[One-pass search attempt] Minimal value is " + minPair.value + ", found at index " + minPair.index);
 
 		System.out.println("Total amount of 0s: " + getstream().filter(i -> i == 0).count());
 
