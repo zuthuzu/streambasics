@@ -28,6 +28,9 @@ public class Main {
 		minvalues.forEach(i -> System.out.print(i + ", "));
 		System.out.println("and that's it.");
 
+		int minIdx = IntStream.range(0,values.size()).reduce((i,j) -> values.get(i) > values.get(j) ? j : i).getAsInt();
+		System.out.println("[One-pass search attempt #1] Minimal value is " + values.get(minIdx) + ", found at index " + minIdx);
+
 		class Pair {
 			int index;
 			int value;
@@ -42,7 +45,7 @@ public class Main {
 		IntStream.range(0,values.size()).forEach(i -> valuesAsPair.add(new Pair(i, values.get(i))));
 
 		Pair minPair = valuesAsPair.stream().reduce((i, j) -> i.value > j.value ? j : i).get();
-		System.out.println("[One-pass search attempt] Minimal value is " + minPair.value + ", found at index " + minPair.index);
+		System.out.println("[One-pass search attempt #2] Minimal value is " + minPair.value + ", found at index " + minPair.index);
 
 		System.out.println("Total amount of 0s: " + getstream().filter(i -> i == 0).count());
 
