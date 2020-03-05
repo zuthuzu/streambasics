@@ -1,20 +1,28 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
  * Created by Anton Domin on 2020-03-01
  */
-@SuppressWarnings("OptionalGetWithoutIsPresent")
+@SuppressWarnings({"OptionalGetWithoutIsPresent", "SpellCheckingInspection"})
 public class Main {
 	static List<Integer> values = new ArrayList<>();
 
 	public static void main(String[] args) {
 
 		for (int i = 0; i < 50; i++) values.add((int) (Math.random() * 20 - 10));
+
+		streamtasks1();
+
+		arraylisttask1();
+
+	}
+
+	private static void streamtasks1() {
+		System.out.println("Raw array: " + values.toString());
+
+		System.out.println("Inverted array: " + Arrays.toString(getstream().map(i -> i * -1).toArray()));
 
 		System.out.println("Average with built-in function: " + getstream().average());
 		System.out.println("Manual average: " + getstream().sum() / getstream().count());
@@ -50,14 +58,14 @@ public class Main {
 		System.out.println("Total amount of 0s: " + getstream().filter(i -> i == 0).count());
 
 		System.out.println("Total amount of positive values: " + getstream().filter(i -> i > 0).count());
+	}
 
-		System.out.println("Raw array: " + values.toString());
+	private static void arraylisttask1() {
+		Map<Integer, Integer> valueHits = new HashMap<>();
 
-		//nope, lazy operation delays getting stream until after array is cleared
-		//IntStream intstream = getstream();
-		//values.clear();
+		getstream().boxed().forEach(i -> valueHits.put(i, valueHits.getOrDefault(i, 0) + 1));
 
-		System.out.println("Inverted array: " + Arrays.toString(getstream().map(i -> i * -1).toArray()));
+		valueHits.keySet().stream().sorted().forEach(i -> System.out.println("Value " + i + " is encountered " + valueHits.get(i) + " times"));
 
 	}
 
